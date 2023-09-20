@@ -3,15 +3,16 @@ package com.company;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
 public class EventsService {
-	private List<CustomEvent> eventCache;
+	private final List<CustomEvent> eventCache;
 	private final Duration expiration = Duration.ofDays(1);
 
-	public EventsService(List<CustomEvent> event) {
-		this.eventCache = event;
+	public EventsService() {
+		this.eventCache = new ArrayList<>();
 	}
 
 	private boolean isEventValid(CustomEvent event) {
@@ -25,6 +26,7 @@ public class EventsService {
 	public boolean put(CustomEvent event) {
 		if (isEventValid(event)) {
 			eventCache.add(event);
+//			System.out.println(eventCache.get(0).getResource().getIds().toString());
 			return true;
 		} else {
 			System.out.println("Invalid event: " + event);
