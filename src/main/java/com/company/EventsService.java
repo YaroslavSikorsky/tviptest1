@@ -3,30 +3,35 @@ package com.company;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class EventsService {
 	private final List<CustomEvent> eventCache;
-	private final Duration expiration = Duration.ofDays(1);
+	private final Duration expiration;
 
 	public EventsService() {
 		this.eventCache = new ArrayList<>();
+		this.expiration = Duration.ofDays(1);
+	}
+
+	public EventsService(Duration expiration) {
+		this.eventCache = new ArrayList<>();
+		this.expiration = expiration;
 	}
 
 	private boolean isEventValid(CustomEvent event) {
-		if (event.getTimestamp() != null && event.getResource() != null) {
-			return true;
-		} else {
+		if (event != null && event.getTimestamp() != 0 && event.getResource() != null && event.getResource().getIds() != null && event.getResource().getType() != null) {
 			return false;
+		} else {
+			return true;
 		}
 	}
 
 	public boolean put(CustomEvent event) {
 		if (isEventValid(event)) {
 			eventCache.add(event);
-//			System.out.println(eventCache.get(0).getResource().getIds().toString());
 			return true;
 		} else {
 			System.out.println("Invalid event: " + event);
@@ -35,13 +40,11 @@ public class EventsService {
 	}
 
 	public List<CustomEvent> events() {
-		List<CustomEvent> validEvents = new ArrayList<>();
 		Instant currentTimestamp = Instant.now();
-		for (CustomEvent event : eventCache) {
-			if (Duration.between(event.getTimestamp(), currentTimestamp).compareTo(expiration) <= 0) {
-				validEvents.add(event);
-			}
-		}
-		return validEvents;
+		return eventCache.stream()
+				.filter(event -> Duration.between(Instant.ofEpochSecond(event.getTimestamp()), currentTimestamp).compareTo(expiration) <= 0)
+				.collect(Collectors.toList());
+
+
 	}
 }

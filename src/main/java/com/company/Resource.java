@@ -1,12 +1,17 @@
 package com.company;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class Resource {
 	private String type;
 	private List<String> ids;
 
-	public Resource(String type, List<String> ids) {
+	@JsonCreator
+	public Resource(@JsonProperty("type") String type,
+					@JsonProperty("ids") List<String> ids) {
 		this.type = type;
 		this.ids = ids;
 	}
@@ -26,4 +31,5 @@ public class Resource {
 	public void setIds(List<String> ids) {
 		this.ids = ids;
 	}
+
 }
