@@ -9,10 +9,10 @@ import java.util.List;
 public class Main {
 	public static void main(String[] args) {
 
-		EventsService eventsService = new EventsService(Duration.ofDays(100));
+		EventsService eventsService = new EventsService(Duration.ofDays(3));
 
-		String jsonEvent1 = "{\"timestamp\": 1695318924000, \"resource\": {\"type\": \"CONTENT\", \"ids\": [1, 5, 9]}}";
-		String jsonEvent2 = "{\"timestamp\": 1695006509000, \"resource\": {\"type\": \"USER\", \"ids\": [59011, 15, 1695190408876]}}";
+		String jsonEvent1 = "{\"timestamp\": 1695190109, \"resource\": {\"type\": \"CONTENT\", \"ids\": [1, 5, 9]}}";
+		String jsonEvent2 = "{\"timestamp\": 1695190109, \"resource\": {\"type\": \"USER\", \"ids\": [59011, 15, 1695190408876]}}";
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
@@ -29,7 +29,6 @@ public class Main {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-
 		}
 	}
 }
