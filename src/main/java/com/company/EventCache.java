@@ -16,18 +16,21 @@ public class EventCache {
 	public boolean put(CustomEvent event) {
 		if (CustomEventValidator.isEventValid(event)) {
 			eventCache.add(event);
+			MyLogger.logInfo("Event added: " + event);
 			return true;
 		} else {
-			System.out.println("Invalid event: " + event);
+			MyLogger.logWarning("Invalid event: " + event);
 			return false;
 		}
 	}
 
 	public List<CustomEvent> getValidEvents() {
 		Instant currentTimestamp = Instant.now();
-		return eventCache.stream()
-				.filter(event -> Duration.between(Instant.ofEpochSecond(event.getTimestamp()), currentTimestamp).compareTo(expiration) <= 0)
+		List<CustomEvent> validEvents = eventCache.stream()
+				.filter(event -> Duration.between(event.getTimestamp(), currentTimestamp).compareTo(expiration) <= 0)
 				.toList();
+		MyLogger.logInfo("Retrieved valid events: " + validEvents.size());
+		return validEvents;
 	}
 
 }

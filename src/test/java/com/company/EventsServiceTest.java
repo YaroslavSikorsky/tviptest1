@@ -5,15 +5,31 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 
 import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
-public class Main {
-	public static void main(String[] args) {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
-		EventsService eventsService = new EventsService(Duration.ofDays(4));
+
+public class EventsServiceTest {
+
+	private EventsService eventsService;
+
+	@BeforeEach
+	public void setUp() {
+		eventsService = new EventsService(Duration.ofDays(4));
+	}
+
+	@DisplayName("Test EventService.get()")
+	@Test
+	public void testPutValidEvent() {
 
 		String jsonEvent1 = "{\"timestamp\": 1695190109000, \"resource\": {\"type\": \"CONTENT\", \"ids\": [1, 5, 9]}}";
 		String jsonEvent2 = "{\"timestamp\": 1695190109000, \"resource\": {\"type\": \"USER\", \"ids\": [59011, 15, 1695190408876]}}";
@@ -34,13 +50,13 @@ public class Main {
 			eventsService.put(event2);
 
 			List<CustomEvent> events = eventsService.events();
+			assertEquals(2, events.size());
 			for (CustomEvent event : events) {
 				String eventJson = objectMapper.writeValueAsString(event);
-				MyLogger.logInfo("Valid event: " + eventJson);
-				//System.out.println("Event: " + eventJson);
+				System.out.println("Event: " + eventJson);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			fail("IOException occurred: " + e.getMessage());
 		}
 	}
 }

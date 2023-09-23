@@ -4,21 +4,22 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.Instant;
 import java.util.List;
 
 @JsonFormat
 public class CustomEvent {
-	private long timestamp;
+	private Instant timestamp;
 	private Resource resource;
 
 	@JsonCreator
-	public CustomEvent(@JsonProperty("timestamp") long timestamp,
+	public CustomEvent(@JsonProperty("timestamp") Instant timestamp,
 					   @JsonProperty("resource") Resource resource) {
 		this.timestamp = timestamp;
 		this.resource = resource;
 	}
 
-	public long getTimestamp() {
+	public Instant getTimestamp() {
 		return timestamp;
 	}
 
@@ -26,7 +27,7 @@ public class CustomEvent {
 		return resource;
 	}
 
-	public void setTimestamp(long timestamp) {
+	public void setTimestamp(Instant timestamp) {
 		this.timestamp = timestamp;
 	}
 
