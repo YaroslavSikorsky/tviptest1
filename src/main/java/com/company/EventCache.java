@@ -14,7 +14,7 @@ public class EventCache {
 	}
 
 	public boolean put(CustomEvent event) {
-		if (CustomEventValidator.isEventValid(event)) {
+		if (EventValidator.isEventValid(event)) {
 			eventCache.add(event);
 			MyLogger.logInfo("Event added: " + event);
 			return true;

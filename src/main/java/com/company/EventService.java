@@ -3,14 +3,14 @@ package com.company;
 import java.time.Duration;
 import java.util.List;
 
-public class EventsService {
+public class EventService {
 	private final EventCache eventCache;
 
-	public EventsService() {
+	public EventService() {
 		this(Duration.ofDays(1));
 	}
 
-	public EventsService(Duration expiration) {
+	public EventService(Duration expiration) {
 		this.eventCache = new EventCache(expiration);
 	}
 
