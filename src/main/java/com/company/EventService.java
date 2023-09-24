@@ -7,7 +7,7 @@ public class EventService {
 	private final EventCache eventCache;
 
 	public EventService() {
-		this(Duration.ofDays(1));
+		this(Duration.ofHours(24));
 	}
 
 	public EventService(Duration expiration) {
