@@ -4,10 +4,12 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class EventCache {
 	private final List<CustomEvent> eventCache = new ArrayList<>();
 	private final Duration expiration;
+	private static final Logger logger = Logger.getLogger(EventCache.class.getName());
 
 	public EventCache(Duration expiration) {
 		this.expiration = expiration;
@@ -16,10 +18,10 @@ public class EventCache {
 	public boolean put(CustomEvent event) {
 		if (EventValidator.isEventValid(event)) {
 			eventCache.add(event);
-			MyLogger.logInfo("Event added: " + event);
+			logger.info("Event added: " + event);
 			return true;
 		} else {
-			MyLogger.logWarning("Invalid event: " + event);
+			logger.info("Invalid event: " + event);
 			return false;
 		}
 	}
@@ -29,7 +31,7 @@ public class EventCache {
 		List<CustomEvent> validEvents = eventCache.stream()
 				.filter(event -> Duration.between(event.getTimestamp(), currentTimestamp).compareTo(expiration) <= 0)
 				.toList();
-		MyLogger.logInfo("Retrieved valid events: " + validEvents.size());
+		logger.info("Retrieved valid events: " + validEvents.size());
 		return validEvents;
 	}
 
