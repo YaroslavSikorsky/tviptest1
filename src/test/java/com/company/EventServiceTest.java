@@ -10,22 +10,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class EventServiceTest {
-	private final EventServiceWrapper eventServiceWrapper = new EventServiceWrapper(new EventService(Duration.ofHours(100)));
+	private final EventServiceWrapper eventServiceWrapper = new EventServiceWrapper(new EventService(Duration.ofHours(211)));
 	private static final Logger logger = Logger.getLogger(EventServiceTest.class.getName());
 
 	@Test()
-	public void  happyPath() {
+	public void happyPath() {
 
-		String jsonEvent1 = "{\"timestamp\": 1695190109000, \"resource\": {\"type\": \"CONTENT\", \"ids\": [1, 5, 9]}}";
-		String jsonEvent2 = "{\"timestamp\": 1695190109000, \"resource\": {\"type\": \"USER\", \"ids\": [59011, 15, 1695190408876]}}";
+		String validEvent1 = "{\"timestamp\": 1695190109000, \"resource\": {\"type\": \"CONTENT\", \"ids\": [1, 5, 9]}}";
+		String validEvent2 = "{\"timestamp\": 1695190109000, \"resource\": {\"type\": \"USER\", \"ids\": [59011, 15, 1695190408876]}}";
+		String expiredEvent = "{\"timestamp\": 1685180007000,	\"resource\": {\"type\": \"CONTENT\", \"ids\": [1, 5, 9]}}";
+		String eventWithNullType = "{\"timestamp\": 1695190109000, \"resource\": {\"ids\": [59011, 15, 1695190408876]}}";
 
-		eventServiceWrapper.put(jsonEvent1);
-		eventServiceWrapper.put(jsonEvent2);
+		eventServiceWrapper.put(validEvent1);
+		eventServiceWrapper.put(validEvent2);
+		eventServiceWrapper.put(expiredEvent);
+		eventServiceWrapper.put(eventWithNullType);
 
-		List<String> eventJsonList = eventServiceWrapper.events();
-		assertEquals(2, eventJsonList.size());
-		for (String eventJson : eventJsonList) {
-			logger.info("Event: " + eventJson);
+		List<String> validEvents = eventServiceWrapper.events();
+		assertEquals(2, validEvents.size());
+		for (String validEvent : validEvents) {
+			logger.info("Event: " + validEvent);
 		}
 
 	}
