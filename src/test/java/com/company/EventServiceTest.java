@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class EventServiceTest {
-	private final EventServiceWrapper eventServiceWrapper = new EventServiceWrapper(new EventService(Duration.ofHours(211)));
+	private final EventServiceWrapper eventServiceWrapper = new EventServiceWrapper(new EventService(Duration.ofHours(300)));
 	private static final Logger logger = Logger.getLogger(EventServiceTest.class.getName());
 
 	@Test()
